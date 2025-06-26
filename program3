@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Odd Series Pattern</title>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 360px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            background-color: #e6f7ff;
+            border-left: 5px solid #007BFF;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Custom Odd Number Pattern</h2>
+    <form method="post" action="">
+        <label>Enter value for a:</label>
+        <input type="number" name="a" min="1" required>
+        <input type="submit" value="Generate">
+    </form>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $a = (int)$_POST['a'];
+        if ($a > 0) {
+            // Determine group (1 = a=1 or 2, 2 = a=3 or 4, 3 = a=5 or 6, etc.)
+            $group = ceil($a / 2);
+
+            // Each group adds (2 * group - 1) odd numbers
+            $oddCount = $group * 2 - 1;
+
+            $series = [];
+            for ($i = 0; $i < $oddCount; $i++) {
+                $series[] = 2 * $i + 1;
+            }
+
+            echo "<div class='result'><strong>Output:</strong> " . implode(", ", $series) . "</div>";
+        } else {
+            echo "<div class='error'>Please enter a number greater than 0.</div>";
+        }
+    }
+    ?>
+</div>
+
+</body>
+</html>
