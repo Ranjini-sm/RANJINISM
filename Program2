@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Odd Number Series Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Odd Number Series</h2>
+        <form method="post" action="">
+            <label for="a">Enter how many odd numbers to generate:</label>
+            <input type="number" name="a" id="a" min="1" required>
+            <input type="submit" value="Generate">
+        </form>
+
+        <?php
+        function generateOddSeries($a) {
+            $series = [];
+            for ($i = 0; $i < $a; $i++) {
+                $series[] = ($i * 2) + 1;
+            }
+            return implode(", ", $series);
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['a'])) {
+            $a = (int)$_POST['a'];
+            if ($a > 0) {
+                $result = generateOddSeries($a);
+                echo "<div class='result'><strong>Result:</strong> $result</div>";
+            } else {
+                echo "<div class='result' style='border-left-color: red;'><strong>Error:</strong> Please enter a positive number.</div>";
+            }
+        }
+        ?>
+    </div>
+</body>
+</html>
