@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Divisor Count Dictionary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f5f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .box {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            resize: none;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            background: #e8f4ff;
+            padding: 15px;
+            border-left: 5px solid #007BFF;
+            border-radius: 8px;
+            font-size: 16px;
+            word-wrap: break-word;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Divisor Count Dictionary</h2>
+    <form method="post">
+        <label>Enter numbers (comma-separated):</label>
+        <textarea name="numbers" rows="4" ></textarea>
+        <input type="submit" value="Calculate">
+    </form>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $inputText = $_POST['numbers'];
+        
+        // Convert input to array
+        $inputArray = array_map('trim', explode(',', $inputText));
+        $inputArray = array_filter($inputArray, function($val) {
+            return is_numeric($val);
+        });
+        $inputArray = array_map('intval', $inputArray);
+
+        if (!empty($inputArray)) {
+            // Initialize result for divisors 1 to 9
+            $result = array_fill(1, 9, 0);
+
+            foreach (range(1, 9) as $divisor) {
+                foreach ($inputArray as $number) {
+                    if ($number % $divisor === 0) {
+                        $result[$divisor]++;
+                    }
+                }
+            }
+
+            echo "<div class='result'><strong>Result:</strong><br>{ ";
+            $parts = [];
+            foreach ($result as $div => $count) {
+                $parts[] = "$div: $count";
+            }
+            echo implode(", ", $parts) . " }</div>";
+        } else {
+            echo "<div class='error'> Please enter at least one valid number.</div>";
+        }
+    }
+    ?>
+</div>
+
+</body>
+</html>
