@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+</head>
+<body>
+    <h2>Simple Calculator</h2>
+    <form method="post" action="">
+        Enter first number (a): <input type="text" name="a" required><br><br>
+        Enter second number (b): <input type="text" name="b" required><br><br>
+        Select operation: 
+        <select name="operation" required>
+            <option value="+">Addition (+)</option>
+            <option value="-">Subtraction (-)</option>
+            <option value="*">Multiplication (*)</option>
+            <option value="/">Division (/)</option>
+        </select><br><br>
+        <input type="submit" name="submit" value="Calculate">
+    </form>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $a = (double)$_POST['a'];
+        $b = (double)$_POST['b'];
+        $op = $_POST['operation'];
+        $result = 0.0;
+
+        switch ($op) {
+            case '+':
+                $result = $a + $b;
+                break;
+            case '-':
+                $result = $a - $b;
+                break;
+            case '*':
+                $result = $a * $b;
+                break;
+            case '/':
+                if ($b != 0) {
+                    $result = $a / $b;
+                } else {
+                    echo "<p style='color:red;'>Error: Division by zero is not allowed.</p>";
+                    exit;
+                }
+                break;
+            default:
+                echo "<p style='color:red;'>Invalid operation</p>";
+                exit;
+        }
+
+        echo "<h3>Result: $a $op $b = $result</h3>";
+    }
+    ?>
+</body>
+</html>
